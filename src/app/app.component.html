@@ -1,0 +1,3 @@
+<!-- <app-login *ngIf="userLoggedIn == false"></app-login> -->
+<app-header *ngIf="userLoggedIn == true"></app-header>
+<router-outlet *ngIf="userLoggedIn == true"></router-outlet>

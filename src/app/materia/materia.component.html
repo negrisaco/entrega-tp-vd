@@ -1,0 +1,90 @@
+<div class="col">
+    <h1 class="mx-auto my-3" id="materia-title">Materias</h1>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#materiaModal" data-whatever="@getbootstrap">Agregar Materia</button>
+            </div>
+        </div>
+        <br>
+        <div div class="container-table table-responsive table-profesor">
+            <table class="table table-striped table-responsive-md btn-table" *ngIf="materiasList.length">
+                    <thead class="thead-dark header">
+                        <th>Codigo de Materia</th>
+                        <th>Nombre Materia</th>
+                        <th>Legajo Profesor</th>
+                        <th>Nombre Profesor</th>
+                        <th>Apellido Profesor</th>
+                        <th>Actions</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let materia of materiasList">
+                            <td>{{materia.codigo_materia}}</td>
+                            <td>{{materia.nombre_materia}}</td>
+                            <td>{{materia.legajo_profesor}}</td>
+                            <td>{{materia.nombre_profesor}}</td>
+                            <td>{{materia.apellido_profesor}}</td>
+                            <td>
+                                <button type="button" class="btn btn-secondary" (click)="borrarMateria(materia.codigo_materia);">Borrar</button>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#materiaModal" data-whatever="@getbootstrap" (click)="esEditar(materia)">Editar</button>
+                            </td>
+                        </tr>
+                        </tbody>        
+                </table>
+        </div>
+</div>
+
+
+<div class="modal fade" id="materiaModal" tabindex="-1" role="dialog" aria-labelledby="materiaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 *ngIf="!editar" class="modal-title" id="materiaModalLabel">Nueva Materia</h5>
+                <h5 *ngIf="editar" class="modal-title" id="materiaModalLabel">Editar Materia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <form [formGroup]="materiaForm" (ngSubmit)="agregarMateria(materiaForm)">
+                        <div class="input-group row">
+                            <label for="nombreMateria" class="col-sm-4 text-right">Nombre Materia:</label>
+                            <div class="col-8">
+                                <input type="text" class="form-control col-sm-8" formControlName="nombreMateria">
+                                <div  *ngIf="materiaForm.controls['nombreMateria'].errors?.required && materiaForm.controls['nombreMateria'].touched"
+                                class="form-control-feedback">
+                                    Campo requerido.
+                                </div>
+                                <div *ngIf="materiaForm.controls['nombreMateria'].errors?.pattern && materiaForm.controls['nombreMateria'].touched"
+                                class="form-control-feedback">
+                                    Error de formato.
+                                </div>
+                                <div *ngIf="materiaForm.controls['nombreMateria'].errors?.maxlength && materiaForm.controls['nombreMateria'].touched"
+                                class="form-control-feedback">
+                                    Maximo de Caracteres: 50.
+                                </div>  
+                            </div>  
+                        </div>
+                        <div class="input-group row">
+                                <label for="profesor" class="col-sm-4 text-right">Profesor:</label>
+                                <div class="col-8">
+                                    <select formControlName="profesor" class="form-control col-sm-8 custom-select">
+                                            <option selected>Seleccionar Profesor ...</option>
+                                            <option *ngFor="let profesor of profesoresList" [ngValue]="profesor">{{profesor.legajo_profesor}} {{profesor.nombre}} {{profesor.apellido}}</option>
+                                    </select>
+                                    <div *ngIf="materiaForm.controls['profesor'].errors?.required && materiaForm.controls['profesor'].touched"
+                                    class="form-control-feedback">
+                                    Campo requerido.
+                                    </div> 
+                                </div>    
+                        </div>
+                        <br>
+                    </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Cerrar</button>
+                <button *ngIf="!editar" type="submit" [disabled]="!materiaForm.valid" class="btn btn-primary" (click)="agregarMateria(materiaForm)" data-dismiss="modal">Agregar</button>
+                <button *ngIf="editar" type="submit" [disabled]="!materiaForm.valid" class="btn btn-primary" (click)="editarMateria(materiaForm)" data-dismiss="modal">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

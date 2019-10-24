@@ -1,0 +1,259 @@
+<div class="col">
+    <h1 class="mx-auto my-3" id="alumno-title">Alumnos</h1>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#alumnoModal" data-whatever="@getbootstrap">Agregar Alumno</button>
+            </div>
+        </div>
+        <br>
+    <div class="container-table table-responsive table-alumnos">
+        <table class="table table-striped table-responsive-md btn-table" *ngIf="alumnosList.length">
+            <thead class="thead-dark header">
+                <th class="text-center">Legajo</th>
+                <th class="text-center">DNI</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Apellido</th>
+                <th class="text-center">Ciudad</th>
+                <th class="text-center">Dirección</th>
+                <th class="text-center">Telefono</th>
+                <th class="text-center">Fecha de Nacimiento</th>
+                <th class="text-center">Genero</th>
+                <th class="text-center">Actions</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let alumno of alumnosList">
+                <td>{{alumno.legajo}}</td>
+                <td>{{alumno.dni}}</td>
+                <td>{{alumno.nombre}}</td>
+                <td>{{alumno.apellido}}</td>
+                <td>{{alumno.ciudad}}</td>
+                <td>{{alumno.direccion}}</td>
+                <td>{{alumno.telefono}}</td>
+                <td>{{alumno.fecha_nacimiento}}</td>
+                <td>{{alumno.genero}}</td>
+                <td>
+                    <div>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#alumnoMateriaModal" data-whatever="@getbootstrap" (click)="cargarListaMaterias(alumno.legajo)">Materias</button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#alumnoModal" data-whatever="@getbootstrap" (click)="esEditar(alumno)">Editar</button>
+                        <button type="button" class="btn btn-secondary" (click)="borrarAlumno(alumno.legajo);">Borrar</button>
+                    </div>
+                </td>
+                </tr>
+            </tbody>        
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="alumnoModal" tabindex="-1" role="dialog" aria-labelledby="alumnoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 *ngIf="!editar" class="modal-title" id="alumnoModalLabel">Nuevo Alumno</h5>
+                <h5 *ngIf="editar" class="modal-title" id="alumnoModalLabel">Editar Alumno</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="alumnoForm" (ngSubmit)="agregarAlumno()">
+                    <div class="form-group row" [ngClass]="{'has-danger': !alumnoForm.controls.dni.invalid}">
+                        <label for="dni" class="col-2 col-form-label">DNI:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control col-8" formControlName="dni"> <div *ngIf="alumnoForm.controls['dni'].errors?.required && alumnoForm.controls['dni'].touched"
+                            class="form-control-feedback">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['dni'].errors?.pattern && alumnoForm.controls['dni'].touched"
+                            class="form-control-feedback">
+                                Error de formato.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['dni'].errors?.maxlength && alumnoForm.controls['dni'].touched"
+                            class="form-control-feedback">
+                            Maximo de Caracteres: 8.
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="form-group row">
+                        <label for="nombre" class="col-2 col-form-label">Nombre:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control col-8" formControlName="nombre">
+                            <div *ngIf="alumnoForm.controls['nombre'].errors?.required && alumnoForm.controls['nombre'].touched" 
+                            class="form-control-feedback">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['nombre'].errors?.pattern && alumnoForm.controls['nombre'].touched"
+                            class="form-control-feedback">
+                                Error de formato.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['nombre'].errors?.maxlength && alumnoForm.controls['nombre'].touched"
+                            class="form-control-feedback">
+                            Maximo de Caracteres: 25.
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="form-group row">
+                        <label for="apellido" class="col-2 col-form-label">Apellido:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control col-8" formControlName="apellido">
+                            <div *ngIf="alumnoForm.controls['apellido'].errors?.required && alumnoForm.controls['apellido'].touched"
+                            class="form-control-feedback">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['apellido'].errors?.pattern && alumnoForm.controls['apellido'].touched"
+                            class="form-control-feedback">
+                                Error de formato.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['apellido'].errors?.maxlength && alumnoForm.controls['apellido'].touched"
+                            class="form-control-feedback">
+                                Maximo de Caracteres: 50.
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="form-group row">
+                        <label for="ciudad" class="col-2 col-form-label">Ciudad:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control col-8" formControlName="ciudad">
+                            <div *ngIf="alumnoForm.controls['ciudad'].errors?.required && alumnoForm.controls['ciudad'].touched"
+                            class="form-control-feedback">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['ciudad'].errors?.pattern && alumnoForm.controls['ciudad'].touched"
+                            class="form-control-feedback">
+                                Error de formato.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['ciudad'].errors?.maxlength && alumnoForm.controls['ciudad'].touched"
+                            class="form-control-feedback">
+                                Maximo de Caracteres: 25.
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="form-group row">
+                        <label for="direccion" class="col-2 col-form-label">Dirección:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control col-8" formControlName="direccion">
+                            <div  *ngIf="alumnoForm.controls['direccion'].errors?.required && alumnoForm.controls['direccion'].touched"
+                            class="form-control-feedback">
+                                Campo requerido.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['direccion'].errors?.pattern && alumnoForm.controls['direccion'].touched"
+                            class="form-control-feedback">
+                                Error de formato.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['direccion'].errors?.maxlength && alumnoForm.controls['direccion'].touched"
+                            class="form-control-feedback">
+                                Maximo de Caracteres: 50.
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="form-group row">
+                        <label for="telefono" class="col-2 col-form-label">Telefono:</label>
+                        <div class="col-8">
+                            <input type="text" class="form-control col-8" formControlName="telefono">
+                            <div *ngIf="alumnoForm.controls['telefono'].errors?.pattern"
+                            class="form-control-feedback">
+                                Error de formato.
+                            </div>
+                            <div *ngIf="alumnoForm.controls['telefono'].errors?.maxlength && alumnoForm.controls['telefono'].touched"
+                            class="form-control-feedback">
+                                Maximo de Caracteres: 9
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="input-group row">
+                        <label for="fecha_nacimiento" class="col-2 col-form-label">Fecha de Nacimiento:</label>
+                        <div class="col-8">
+                            <input class="form-control col-8" placeholder="yyyy-mm-dd" formControlName="fecha_nacimiento" name="dates" ngbDatepicker
+                            #d="ngbDatepicker">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                    <img src="../../../assets/images/calendar-icon.svg" style="width: 1.1rem; height: 0.8rem; cursor: pointer;">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group row">
+                        <label for="genero" class="col-2 col-form-label">Genero:</label>
+                        <div class="col-8">
+                            <select class="custom-select col-8" id="inputGroupSelect01" formControlName="genero">
+                                <option selected>Seleccionar Genero...</option>
+                                <option value="H">Masculino</option>
+                                <option value="M">Femenino</option>
+                                <option value="O">Otros</option>
+                            </select>
+                            <div *ngIf="alumnoForm.controls['genero'].errors?.required && alumnoForm.controls['genero'].touched"
+                            class="form-control-feedback">
+                            Campo requerido.
+                            </div> 
+                        </div>
+                    </div>
+                    <br>
+                    {{alumnoForm.valid}}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Cerrar</button>
+                <button *ngIf="editar" type="submit" [disabled]="!alumnoForm.valid" class="btn btn-primary"  data-dismiss="modal" (click)="editarAlumno()">Guardar</button>
+                <button *ngIf="!editar" type="submit" [disabled]="!alumnoForm.valid" class="btn btn-primary"  data-dismiss="modal" (click)="agregarAlumno()">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="alumnoMateriaModal" tabindex="-1" role="dialog" aria-labelledby="alumnoMateriaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alumnoMateriaModalLabel">Alumno Inscripto en:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="alumnoMateriasForm" (ngSubmit)="agregarMateria()">
+                    <div class="form-group row">
+                        <label for="dni" class="col-2 col-form-label">Materia:</label>
+                        <div class="col-12">
+                                <div>
+                                        <select formControlName="materia" class="form-control col-sm-8 custom-select">
+                                                <option selected>Seleccionar Materia ...</option>
+                                                <option *ngFor="let materia of materiaTotalList" [ngValue]="materia"> {{materia.nombre}}</option>
+                                        </select>
+                                        <div *ngIf="alumnoMateriasForm.controls['materia'].errors?.required && alumnoMateriasForm.controls['materia'].touched"
+                                        class="alert alert-info" role="alert">
+                                        Campo requerido.
+                                        </div>
+                                </div>
+                        </div>    
+                    </div>
+                    <br>
+                </form>
+            </div>
+            <div class="container-table table-responsive table-alumnosMaterias">
+                    <table class="table table-striped table-responsive-md btn-table">
+                        <thead class="thead-dark header">
+                            <th class="text-center">Codigo Materia</th>
+                            <th class="text-center">Nombre Materia</th>
+                            <th class="text-center">Delete</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let materias of materiasList">
+                            <td>{{materias.codigo_materia}}</td>
+                            <td>{{materias.nombre_materia}}</td>
+                            <td>
+                                <div class="row" style="margin: auto; width: fit-content; flex-wrap: unset;">
+                                    <button type="button" (click)="borrarMateria(materias.codigo_materia)">
+                                        <img src="../../../assets/images/delete2.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+                                    </button>
+                                </div>
+                            </td>
+                            </tr>
+                        </tbody>        
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Cerrar</button>
+                <button type="submit" [disabled]="!alumnoMateriasForm.valid" class="btn btn-primary" (click)="agregarMateria();">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,180 @@
+<div class="col">
+        <h1 class="mx-auto my-3" id="profesor-title">Profesores</h1>
+        <div class="row">
+                <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#profesorModal" data-whatever="@getbootstrap">Agregar Profesor</button>
+                </div>
+        </div>
+        <br>
+        <div class="container-table table-responsive table-profesor">
+        <table class="table table-striped table-responsive-md btn-table" *ngIf="profesoresList.length">
+                <thead class="thead-dark header">
+                        <th>Legajo</th>
+                        <th>DNI</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Ciudad</th>
+                        <th>Dirección</th>
+                        <th>Telefono</th>
+                        <th>Fecha de Nacimiento</th>
+                        <th>Actions</th>
+                </thead>
+                <tbody>
+                        <tr *ngFor="let profesor of profesoresList">
+                                <td>{{profesor.legajo_profesor}}</td>
+                                <td>{{profesor.dni}}</td>
+                                <td>{{profesor.nombre}}</td>
+                                <td>{{profesor.apellido}}</td>
+                                <td>{{profesor.ciudad}}</td>
+                                <td>{{profesor.direccion}}</td>
+                                <td>{{profesor.telefono}}</td>
+                                <td>{{profesor.fecha_nacimiento}}</td>
+                                <td>
+                                <button type="button" class="btn btn-secondary" (click)="borrarProfesor(profesor.legajo_profesor);">Borrar</button>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#profesorModal" data-whatever="@getbootstrap" (click)="esEditar(profesor)">Editar</button>
+                                </td>
+                        </tr>
+                </tbody>        
+        </table>
+        </div>
+</div>
+
+<div class="modal fade" id="profesorModal" tabindex="-1" role="dialog" aria-labelledby="profesorModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h5 *ngIf="!editar" class="modal-title" id="profesorModalLabel">Nuevo Profesor</h5>
+                                <h5 *ngIf="editar" class="modal-title" id="profesorModalLabel">Editar Profesor</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                                <form [formGroup]="profesorForm" (ngSubmit)="agregarAlumno()">
+                                        <div class="form-group row" [ngClass]="{'has-danger': !profesorForm.controls.dni.invalid}">
+                                                <label for="dni" class="col-2 col-form-label">DNI:</label>
+                                                <div class="col-8">
+                                                        <input type="text" class="form-control col-8" formControlName="dni"> <div *ngIf="profesorForm.controls['dni'].errors?.required && profesorForm.controls['dni'].touched"
+                                                        class="form-control-feedback">
+                                                                Campo requerido.
+                                                        </div>
+                                                        <div *ngIf="profesorForm.controls['dni'].errors?.pattern && profesorForm.controls['dni'].touched"
+                                                        class="form-control-feedback">
+                                                                Error de formato.
+                                                        </div>
+                                                        <div *ngIf="profesorForm.controls['dni'].errors?.maxlength && profesorForm.controls['dni'].touched"
+                                                        class="form-control-feedback">
+                                                        Maximo de Caracteres: 8.
+                                                        </div>
+                                                </div>    
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="nombre" class="col-2 col-form-label">Nombre:</label>
+                                                <div class="col-8">
+                                                <input type="text" class="form-control col-8" formControlName="nombre">
+                                                <div *ngIf="profesorForm.controls['nombre'].errors?.required && profesorForm.controls['nombre'].touched" 
+                                                class="form-control-feedback">
+                                                        Campo requerido.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['nombre'].errors?.pattern && profesorForm.controls['nombre'].touched"
+                                                class="form-control-feedback">
+                                                        Error de formato.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['nombre'].errors?.maxlength && profesorForm.controls['nombre'].touched"
+                                                class="form-control-feedback">
+                                                Maximo de Caracteres: 25.
+                                                </div>
+                                                </div>    
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="apellido" class="col-2 col-form-label">Apellido:</label>
+                                                <div class="col-8">
+                                                <input type="text" class="form-control col-8" formControlName="apellido">
+                                                <div *ngIf="profesorForm.controls['apellido'].errors?.required && profesorForm.controls['apellido'].touched"
+                                                class="form-control-feedback">
+                                                        Campo requerido.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['apellido'].errors?.pattern && profesorForm.controls['apellido'].touched"
+                                                class="form-control-feedback">
+                                                        Error de formato.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['apellido'].errors?.maxlength && profesorForm.controls['apellido'].touched"
+                                                class="form-control-feedback">
+                                                        Maximo de Caracteres: 50.
+                                                </div>
+                                                </div>    
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="ciudad" class="col-2 col-form-label">Ciudad:</label>
+                                                <div class="col-8">
+                                                <input type="text" class="form-control col-8" formControlName="ciudad">
+                                                <div *ngIf="profesorForm.controls['ciudad'].errors?.required && profesorForm.controls['ciudad'].touched"
+                                                class="form-control-feedback">
+                                                        Campo requerido.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['ciudad'].errors?.pattern && profesorForm.controls['ciudad'].touched"
+                                                class="form-control-feedback">
+                                                        Error de formato.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['ciudad'].errors?.maxlength && profesorForm.controls['ciudad'].touched"
+                                                class="form-control-feedback">
+                                                        Maximo de Caracteres: 25.
+                                                </div>
+                                                </div>    
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="direccion" class="col-2 col-form-label">Dirección:</label>
+                                                <div class="col-8">
+                                                <input type="text" class="form-control col-8" formControlName="direccion">
+                                                <div  *ngIf="profesorForm.controls['direccion'].errors?.required && profesorForm.controls['direccion'].touched"
+                                                class="form-control-feedback">
+                                                        Campo requerido.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['direccion'].errors?.pattern && profesorForm.controls['direccion'].touched"
+                                                class="form-control-feedback">
+                                                        Error de formato.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['direccion'].errors?.maxlength && profesorForm.controls['direccion'].touched"
+                                                class="form-control-feedback">
+                                                        Maximo de Caracteres: 50.
+                                                </div>
+                                                </div>    
+                                        </div>
+                                        <div class="form-group row">
+                                                <label for="telefono" class="col-2 col-form-label">Telefono:</label>
+                                                <div class="col-8">
+                                                <input type="text" class="form-control col-8" formControlName="telefono">
+                                                <div *ngIf="profesorForm.controls['telefono'].errors?.pattern"
+                                                class="form-control-feedback">
+                                                        Error de formato.
+                                                </div>
+                                                <div *ngIf="profesorForm.controls['telefono'].errors?.maxlength && profesorForm.controls['telefono'].touched"
+                                                class="form-control-feedback">
+                                                        Maximo de Caracteres: 9
+                                                </div>
+                                                </div>    
+                                        </div>
+                                        <div class="input-group row">
+                                                <label for="fecha_nacimiento" class="col-2 col-form-label">Fecha de Nacimiento:</label>
+                                                <div class="col-8">
+                                                        <input class="form-control col-8" placeholder="yyyy-mm-dd" formControlName="fecha_nacimiento"  name="dates" ngbDatepicker
+                                                        #d="ngbDatepicker">
+                                                        <div class="input-group-append">
+                                                                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                                                <img src="../../../assets/images/calendar-icon.svg" style="width: 1.1rem; height: 0.8rem; cursor: pointer;">
+                                                                </button>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        <br>
+                                        {{profesorForm.valid}}
+                                </form>
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm()">Cerrar</button>
+                                <button *ngIf="editar" type="submit" [disabled]="!profesorForm.valid" class="btn btn-primary"  data-dismiss="modal" (click)="editarProfesor()">Guardar</button>
+                                <button *ngIf="!editar" type="submit" [disabled]="!profesorForm.valid" class="btn btn-primary"  data-dismiss="modal" (click)="agregarProfesor()">Agregar</button>
+                        </div>
+                </div>
+        </div>
+</div>

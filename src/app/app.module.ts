@@ -23,6 +23,7 @@ import { ConfigurationService } from '../services/configuration.service';
 import { AlumnoService } from './alumno/alumno.service';
 import { ProfesorService } from './profesor/profesor.service';
 import { MateriaService } from './materia/materia.service';
+import { ConsignasComponent } from './consignas/consignas.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { MateriaService } from './materia/materia.service';
     MateriaComponent,
     HomepageComponent,
     HeaderComponent,
+    ConsignasComponent,
   ],
   imports: [
     BrowserModule,

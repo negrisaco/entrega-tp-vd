@@ -1,29 +1,58 @@
 <div class="container-fluid">
-    <body class="container-fluid">
-        <!-- <div id="globalWrapper" class="container-fluid"> -->
-            <div class="row">
+    <body>
+        <div id="globalWrapper">
+        <div class="row">
                 <div class="col-md-12">
-                        <div class="jumbotron jumbotron-fluid">
-                            <div>
+                        <div class="jumbotron">
                                 <h1>Bienvenido {{this.currentUser.firstName}} {{this.currentUser.lastName}}</h1>
                                 <p>Sistema de Gestión Universitario</p>
-                                <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-                            </div>
+                                <p><a class="btn btn-outline-secondary btn-lg" role="button" data-toggle="modal" data-target="#repoModal" data-whatever="@getbootstrap">Repositorios</a></p>
                         </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="container-fluid">
                 <div class="col-md-4">
                         <h2>Usabilidad</h2>
                         <p>Puede navegar a travez de las diferentes opciones en el menu Secciones, para explorar y consultar datos de los Alumnos, Profesores y Materias de la Universidad. También podrá editar, borrar y agregar cualquiera de estas entidades.</p>
-                        <p><a class="btn btn-default" href="../../consignas.html" role="button">Consignas »</a></p>
+                        <p><a class="btn btn-outline-info" routerLink="/Consignas" role="button">Consignas »</a></p>
                 </div>
             </div>
-        <!-- </div> -->
+        </div>
     </body>
-    <hr>
     <footer>
-    <p>© Sheila Machado - 2019</p>
+        <div>
+                <hr style="position: absolute; bottom: 0;">
+        </div>
+        
+        <div style="position: absolute; bottom: 0;">
+            <p>© Sheila Machado - 2019</p>
+        </div>
     </footer>
 </div>
+
+<div class="modal fade" id="repoModal" tabindex="-1" role="dialog" aria-labelledby="repoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="repoModalLabel">Repositorios de Código</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/negrisaco/entrega-tp-vd">Repositorio Backend</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://github.com/negrisaco/entrega-tp-vd">Repositorio Frontend</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
